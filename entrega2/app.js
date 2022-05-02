@@ -1,50 +1,45 @@
-import { rejects } from "assert"
 import fs from "fs"
-import { resolve } from "node:path/win32"
 
-// class Contenedor{
-//     constructor(nombreDelArchivo){
-//         this.nombreDelArchivo=nombreDelArchivo
-//     }
-//     static id=1
+class Contenedor{
+    constructor(nombreDelArchivo){
+        this.nombreDelArchivo=nombreDelArchivo
+    }
 
-
-//     async save(objeto){
-//         Contenedor.id++
-//         let objetos =this.getAll()
-//         console.log(objetos)
-//         const objetoNuevo={...objeto, id:Contenedor.id}
-//         objetos.push(objetoNuevo)
-//         try{
-//             await fs.promises.appendFile(this.nombreDelArchivo,JSON.stringify(objetos))            
-//             console.log("Saved!!")
-//         }catch(err){
-//             console.log(err)
-//         }
-//         return objetoNuevo.id
-//     }
-//     async getById(id){
-//         let objetos =await this.getAll()
-//         return objetos.find(e=>e.id===id)
-//     }
-//     async getAll(){
-//         try{
-//             const objetos=JSON.parse(await fs.promises.readFile(this.nombreDelArchivo, "utf-8")) || []
-//             return objetos
-//         }catch(err){
-//             console.log(err)
-//         }
-//     }
-//     async deleteById(id){
-//         let objetos =await this.getAll()
-//         objetos.filter(e=>e.id!==id)
-
-//     }
-//     async deleteAll(){
-//         await fs.promises.writeFile(this.nombreDelArchivo,"")
-//     }
-// }
-class Contenedor {
+    async save(objeto){
+        let objetos =await this.getAll()
+        const objetoNuevo={...objeto, id:objetos.length>0?objetos[objetos.length-1].id+1:1}
+        objetos.push(objetoNuevo)
+        try{
+            await fs.promises.writeFile(this.nombreDelArchivo,JSON.stringify(objetos))            
+            console.log("Saved!!")
+        }catch(err){
+            console.log(err)
+        }
+        return objetoNuevo.id
+    }
+    async getById(id){
+        let objetos =await this.getAll()
+        return Promise.resolve(objetos.find(e=>e.id===id))
+    }
+    async getAll(){
+        try{
+            const data=await fs.promises.readFile(this.nombreDelArchivo, "utf-8")
+            const objetos= data?Promise.resolve(JSON.parse(data)) : []
+            return objetos
+        }catch(err){
+            console.log(err)
+        }
+    }
+    async deleteById(id){
+        let objetos =await this.getAll()
+        let result=objetos.filter(e=>e.id!==id)
+        await fs.promises.writeFile(this.nombreDelArchivo, JSON.stringify(result))
+    }
+    async deleteAll(){
+        await fs.promises.writeFile(this.nombreDelArchivo,"")
+    }
+}
+/*class Contenedor {
     constructor(nombreDelArchivo) {
         this.nombreDelArchivo = nombreDelArchivo
     }
@@ -98,15 +93,19 @@ class Contenedor {
         fs.promises.writeFile(this.nombreDelArchivo, "")
     }
 }
-
+*/
 const archivoTxt = new Contenedor("./entrega2.json")
 
-//archivoTxt.save({ title: "PC", price: 100000, thumbnail: "https://upload.wikimedia.org/wikipedia/commons/4/49/Dell_Inspiron_One_23_Touch_AIO_Desktop_PC.png" })
+archivoTxt.save({ title: "PC", price: 100000, thumbnail: "https://upload.wikimedia.org/wikipedia/commons/4/49/Dell_Inspiron_One_23_Touch_AIO_Desktop_PC.png" })
 
-//archivoTxt.getAll().then(data => console.log(data ? JSON.parse(data) : "Archivo vacio"))
+//archivoTxt.getAll().then(data => console.log("get"+data))
+
+;(async()=>{console.log(await archivoTxt.getAll())})()
 
 //archivoTxt.getById(2).then(data =>console.log(data))
 
-//archivoTxt.deleteById(4)
+//;(async()=>{console.log(await archivoTxt.getById(1))})()
+
+//archivoTxt.deleteById(7)
 
 //archivoTxt.deleteAll()
