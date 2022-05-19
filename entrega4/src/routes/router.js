@@ -6,31 +6,34 @@ const services = new Services()
 
 let id = 0
 
-router.get("/api/productos", (req, res) => {
-    res.json(services.getAll())
+router.get("/productos", (req,res)=>{
+    let products =services.getAll()
+    res.render("index", {products})
 })
 
-router.get("/api/productos/:id", (req, res) => {
+router.get("/productos/:id", (req, res) => {
     const { id } = req.params
     res.json(services.getById(Number(id)))
 })
 
-router.post("/api/productos", (req, res) => {
-    services.add({ ...req.body, id: ++id })
-    res.json({ producto: req.body, id })
+router.post("/productos", (req, res) => {
+    let objeto= req.body.id ? req.body : { ...req.body, id: ++id }
+    services.add(objeto)
+    
+    res.redirect("/productos")
 })
 
 router.put("/api/productos/:id", (req, res) => {
     const { id } = req.params
     const newObject = { ...req.query, id: Number(id) }
     services.put(Number(id), newObject)
-    res.send("actualizdo")
+    res.redirect("/productos", services.getAll())
 })
 
 router.delete("/api/productos/:id", (req, res) => {
     const { id } = req.params
     services.deleteById(Number(id))
-    res.send("deleted ")
+    res.redirect("/productos", services.getAll())
 })
 
 module.exports = router
