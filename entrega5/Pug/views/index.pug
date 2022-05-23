@@ -1,0 +1,14 @@
+include ./partials/head.pug
+body
+    include ./partials/nav.pug
+    div(class="container")
+        a(href='/productos/cargar' class="btn btn-success")="Cargar Productos"
+    
+    div(class="container d-flex")
+        each elem in products
+            div(class="card" style="width: 18rem;")
+                img(src=elem.thumbnail class="card-img-top" alt="...")
+                div(class="card-body")
+                    h5(class="card-title")=elem.title 
+                    p(class="card-text")=elem.price
+                    a(href="/productos/= elem.id" class="btn btn-primary")= "Editar"

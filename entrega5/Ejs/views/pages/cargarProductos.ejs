@@ -1,0 +1,29 @@
+<%- include("../partials/head.ejs") %>
+
+    <body>
+        <%- include("../partials/nav.ejs") %>
+            <div class="container d-flex justify-content-around mt-5">
+                <div class="d-flex flex-column col-5">
+                    <h1 class="my-2">Personas</h1>
+                    <form id="datosProductos" action="/productos" method="post">
+                        <div class="mb-3">
+                            <label for="nombreProducto" class="form-label">Producto</label>
+                            <input id="nombreProducto" type="text" class="form-control" name="title"
+                                aria-describedby="emailHelp" value="<%= product ? product.title :  '' %>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="precioProducto" class="form-label">Precio</label>
+                            <input id="precioProducto" type="number" class="form-control" name="price"
+                                value="<%= product ? Number(product.price) : ''%>">
+                        </div>
+                        <div class="mb-3">
+                            <label for="imgProducto" class="form-label">Url Imagens</label>
+                            <input id="imgProducto" type="text" class="form-control" name="thumbnail"
+                                value="<%= product ? product.thumbnail : ''%>" aria-describedby="emailHelp">
+                        </div>
+                        <input type="number" name="id" id="" value="<%= product ? product.id : '' %>" hidden>
+                        <button type="submit" class="btn btn-primary mt-3 w-100">Enviar</button>
+                    </form>
+                </div>
+            </div>
+    </body>

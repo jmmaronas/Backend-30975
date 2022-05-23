@@ -1,0 +1,26 @@
+{{> head }}
+<body>
+    {{> nav }} 
+    <div class="container">
+        <a href='/productos/cargar' class="btn btn-success">Cargar Productos</a>
+    </div>
+    <div class="container d-flex">
+        {{#each products}}
+            <div class="card" style="width: 18rem;">
+                <img src={{this.thumbnail}} class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        {{this.title}}
+                    </h5>
+                    <p class="card-text">
+                        {{elem.price}}
+                    </p>
+                    <a href="/productos/{{this.id}}" class="btn btn-primary">Editar</a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    
+</body>
+
+</html>
