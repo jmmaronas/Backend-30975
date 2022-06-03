@@ -11,12 +11,16 @@ app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname+"/public"))
 
-console.log(__dirname)
 app.get("/", (req,res)=>{
     res.sendFile("index.html")
 })
 app.use("/api/productos", routesAdmin)
 app.use("/api/carrito", routesUsers)
+app.use("/*", (req,res)=>{
+    let x=req.url
+    let y=req.method
+    res.json({error:-2, description:`ruta ${x} metodo ${y} no implementada`})
+})
 
 const server= app.listen(PORT, ()=>{
     console.log(`Server on port: ${server.address().port}`)

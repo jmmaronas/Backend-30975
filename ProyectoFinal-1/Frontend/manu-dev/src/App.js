@@ -5,8 +5,9 @@ import NavBar from './components/NavBar/NavBar.js';
 import AddProduct from './components/Forms/AddProduct.js';
 import { CartProvider } from './components/Context/CartContext.js';
 import { ProductProvider } from "./components/Context/ProductContext.js";
-import CheckOut from './components/Cart/CheckOut.js'
+import CheckOut from './components/ShoppingCart/CheckOut.js'
 import UpdateProduct from './components/Forms/UpdateProduct.js';
+import ItemsDetailContiner from './components/Items/ItemDetailContiner';
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         <CartProvider>
         <Routes>
           <Route path='/' element={<ItemListContainer />} />
+          <Route path='/product/:id' element={<ItemsDetailContiner/>}/>
           <Route path='/products/add' element={<AddProduct />} />
           <Route path='/products/update/:id' element={<UpdateProduct />} />
           <Route path='/checkOut' element={<CheckOut />} />

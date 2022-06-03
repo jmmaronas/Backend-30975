@@ -34,8 +34,11 @@ export function ProductProvider({children}){
 
     }
 
-    const delProduct=()=>{
-
+    const delProduct= async (id)=>{
+        console.log(Number(id))
+        await fetch(`http://localhost:8080/api/productos/${Number(id)}`,{
+            method:"delete"
+        })
     }
     
     const valorDelContexto={ 
