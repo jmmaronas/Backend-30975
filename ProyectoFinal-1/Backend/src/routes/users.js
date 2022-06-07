@@ -17,10 +17,9 @@ routesUsers.get("/:id/productos",async (req, res) => {
 })
 routesUsers.post("/:id/productos/",async (req, res) => {
     const cartId = Number(req.params.id)
-    console.log(cartId)
     //const {id, qty}= req.body
     //let product =await productos.getById(id)
-    //carrito.addToCart(cartId, product)
+    //carrito.addToCart(cartId, {...product, qty})
     carrito.addToCart(cartId, req.body)
     return res.json({message:"producto agregado la carrito"})
 })

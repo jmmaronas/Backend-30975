@@ -1,4 +1,5 @@
 const express=require("express")
+const cors = require("cors")
 const routesAdmin = require("./src/routes/admin.js")
 const routesUsers = require("./src/routes/users.js")
 
@@ -10,6 +11,7 @@ const app=express()
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 app.use(express.static(__dirname+"/public"))
+app.use(cors())
 
 app.get("/", (req,res)=>{
     res.sendFile("index.html")
